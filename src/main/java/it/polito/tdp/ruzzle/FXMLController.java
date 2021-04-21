@@ -102,12 +102,21 @@ public class FXMLController {
     		txtResult.setText("Devi inserire parole di almeno 2 lettere");
     		return;
     	}
+    	
+    	//controllo che la parola sia valida (ovvero che sia contenuta nel dizionario)
+    	if(!model.parolaValida(parola)) {
+    		txtResult.setText("Parola non valida!");
+    		return;
+    	}
+    	
     	parola = parola.toUpperCase();
     	//controllo che ci siano solo caratteri A-Z
     	if(!parola.matches("[A-Z]+")) {
     		txtResult.setText("Devi inserire solo caratteri alfabetici!");
     		return ;
     	}
+    	
+    	
     	
     	List<Pos> percorso = model.trovaParola(parola);
     	
@@ -124,6 +133,11 @@ public class FXMLController {
     @FXML
     void handleReset(ActionEvent event) {
     	model.reset();
+    	//refresh interfaccia grafica
+    	for(Button b : letters.values()) {
+    		b.setDefaultButton(false);
+    	}
+    	txtResult.clear();
     }
     
     @FXML
